@@ -71,12 +71,12 @@ jobs:
         run: |
            mkdir deb-frame/usr/share/aseprite
            cp -r /home/runner/builds/aseprite-release/bin/* deb-frame/usr/share/aseprite/
-           dpkg -b deb-frame Aseprite-ubuntu_amd64.deb
+           zip -r Aseprite-ubuntu_amd64.zip deb-frame
       - name: Upload linux artifact
         uses: actions/upload-artifact@v7.0.0
         with:
           name: ubuntu
-          path: Aseprite-ubuntu_amd64.deb
+          path: Aseprite-ubuntu_amd64.zip
 
   build-macos:
     runs-on: macos-latest
@@ -117,7 +117,7 @@ jobs:
           path: Aseprite-mac-x64.zip
 
   Upload:
-    needs: [build-win, build-macos, build-linux]
+    needs: [build-linux]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
