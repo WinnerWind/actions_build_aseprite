@@ -115,28 +115,3 @@ jobs:
       with:
           name: mac
           path: Aseprite-mac-x64.zip
-
-  Upload:
-    needs: [build-linux]
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v6
-    - name: Download artifacts
-      uses: actions/download-artifact@v7.0.0
-    - name: Get tag
-      run: echo "atb=$(cat release-versions/version.json)" >> "$GITHUB_OUTPUT"
-      id: links
-    - name: Release
-      uses: softprops/action-gh-release@v2
-      with:
-        tag_name: ${{ steps.links.outputs.atb }}
-        name: Aseprite ${{ steps.links.outputs.atb }}
-        files: |
-          artifact/Aseprite-win-x64.zip
-          artifact/Aseprite-mac-x64.zip
-          artifact/Aseprite-ubuntu_amd64.deb
-        body: |
-          Unofficial dev release.
-          Support [official version](https://www.aseprite.org/download)
-      env:
-        GITHUB_TOKEN: ${{ secrets.work1 }}
